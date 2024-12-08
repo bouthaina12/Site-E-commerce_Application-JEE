@@ -28,7 +28,7 @@ import javax.servlet.http.Part;
 		//récuperer la liste des utilisateurs
 		private List<utilisateur> getUsersFromDatabase() {
 		    List<utilisateur> utilisateurs = new ArrayList<>();
-		    String query = "SELECT id, nom, email, mot_de_passe, role, is_blocked FROM utilisateurs";
+		    String query = "SELECT id, nom, email, mot_de_passe, role, is_blocked FROM utilisateurs where role='utilisateur'";
 		   
 		    try (Connection connection = DatabaseConnection.getConnection();
 		         PreparedStatement stmt = connection.prepareStatement(query)) {

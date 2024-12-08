@@ -8,8 +8,14 @@
     <title>Gestion des Produits</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="design.css">
+    
     
 </head>
+	<header>
+		<%@ include file="admin_header.jsp" %>
+		
+	</header>
 <body>
 <%
     // Récupérer le produit transmis par la servlet

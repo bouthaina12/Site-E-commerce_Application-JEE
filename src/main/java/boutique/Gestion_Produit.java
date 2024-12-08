@@ -28,6 +28,8 @@ public class Gestion_Produit extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  
+      
       String action = request.getParameter("action");
       List<Produit> produits = produitDAO.getAllProducts();
       request.setAttribute("Produits", produits);

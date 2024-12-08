@@ -2,13 +2,17 @@
 <%@ page import="java.util.List" %>
 <%@ page import="boutique.OrderDetails" %>
 <%@ page import="boutique.Commande" %>
+<%@ page import="boutique.Produit" %>
+<%@ page import="boutique.ProduitDAO" %>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de la Commande</title>
+    <title>historique</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="design.css">
     
@@ -17,48 +21,62 @@
        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 	<header>
-	    <%@ include file="admin_header.jsp" %>
+	    <%@ include file="menuClient.jsp" %>
 		
 </header>
 	<br>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Détails de la Commande</h2>
+        <h2 class="text-center">Mes Commandes</h2>
 
         <%
             Commande commande = (Commande) request.getAttribute("commande");
+            Double prixTotal = (Double) request.getAttribute("PrixTotal");
+
             List<OrderDetails> details = (List<OrderDetails>) request.getAttribute("details");
         %>
 
-        <h4>Commande ID: <%= commande.getId() %></h4>
-        <p>Utilisateur ID: <%= commande.getClientId() %></p>
-        <p>Statut: <%= commande.getStatut() %></p>
+        <h4>Date de commande: <%= commande.getDateCommande() %></h4>
+        
 
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
-                    <th>ID Produit</th>
+                    <th>Nom de Produit</th>
                     <th>Quantité</th>
-                    <th>Prix Total</th>
+                    <th>Prix</th>
                 </tr>
             </thead>
             <tbody>
-                <%
+                <%! double total=0.0;%>
+            	<%ProduitDAO produitDAO=new ProduitDAO();	
+
+                Produit produit;
                     if (details != null && !details.isEmpty()) {
                         for (OrderDetails detail : details) {
+                        	produit=produitDAO.getProduitById(detail.getProduitId());
+                        	total+=detail.getPrixTotal();
                 %>
                 <tr>
-                    <td><%= detail.getProduitId() %></td>
+                    <td><%= produit.getNom() %></td>
                     <td><%= detail.getQuantite() %></td>
                     <td><%= detail.getPrixTotal() %></td>
                 </tr>
+                
                 <%
-                        }
-                    } else {
-                %>
-                <tr>
-                    <td colspan="3" class="text-center">Aucun détail trouvé</td>
+                        }%>
+                   <tr>
+                     <td colspan="2" style="background-color: lightgray"><b>TOTAL(DT)</b></td>
+                   
+                    <td colspan="1"  style="background-color:lightgray"><%=total %></td>
+                  
                 </tr>
+                   <%  }else {
+                %>
+                 <tr>
+                    <td colspan="3" class="text-center"></td>
+                </tr>
+            
                 <%
                     }
                 %>
