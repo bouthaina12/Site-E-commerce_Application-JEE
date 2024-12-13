@@ -15,6 +15,13 @@
         <div class="card w-50 mx-auto my-5">
             <div class="card-header text-center">S'inscrire</div>
             <div class="card-body">
+                 <!-- Afficher un message d'erreur si présent -->
+            <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+            <% if (errorMessage != null) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= errorMessage %>
+                </div>
+            <% } %>
                 <form action="InscriptionServlet" method="post">
                 <div class="form-group">
                         <label>Nom</label> 

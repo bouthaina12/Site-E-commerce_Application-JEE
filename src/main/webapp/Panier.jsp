@@ -18,6 +18,29 @@
 
 <div class="container mt-4">
     <h1>Votre Panier</h1>
+        
+    <!-- Message d'alerte -->
+    <div id="stock-message" class="signup-message" style="display: none; background-color: #f8d7da; padding: 10px; border: 1px solid #f5c2c7; color: #842029; margin-bottom: 15px;">
+        <p id="stock-message-text"></p>
+        <button onclick="closeMessage()" style="background-color:  #dc3545;color: white; border: none; padding: 5px 10px; cursor: pointer;">Fermer</button>
+    </div>
+
+    <%
+        String erreurStock = (String) request.getAttribute("error");
+        if (erreurStock != null) {
+    %>
+        <script>
+            // Afficher le message d'erreur côté client
+            document.addEventListener('DOMContentLoaded', function() {
+                const messageText = "<%= erreurStock %>";
+                document.getElementById("stock-message-text").innerText = messageText;
+                document.getElementById("stock-message").style.display = "block";
+            });
+         
+        </script>
+    <%
+        }
+    %>
     <%
         Panier panier = (Panier) session.getAttribute("Panier");
         ProduitDAO produitDAO = new ProduitDAO();
@@ -98,7 +121,13 @@
         }
     %>
 </div>
+<script>
+    function closeMessage() {
+        document.getElementById("stock-message").style.display = "none";
+    }
 
+  
+</script>
 </body>
 
 

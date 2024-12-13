@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class Gestion_Commande extends HttpServlet {
     private CommandeDAO commandeDAO;
     private ProduitDAO produitDAO;
-    private  double totalPrice = 0.0;
+    private  double totalPrice ;
 
 
 
@@ -36,6 +36,7 @@ public class Gestion_Commande extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        String statut = request.getParameter("statut");
 
         if ("details".equals(action)) {
             // Afficher les détails d'une commande spécifique
@@ -51,10 +52,14 @@ public class Gestion_Commande extends HttpServlet {
 
             // Rediriger vers une nouvelle page JSP
             request.getRequestDispatcher("/Detail_Commande.jsp").forward(request, response);
-        }
-        else {
-            // Récupérer la liste des commandes en cours
-            List<Commande> commandes = commandeDAO.getAllCommandesEncours();
+        } else {
+            // Récupérer les commandes en fonction du statut
+            List<Commande> commandes;
+            if (statut == null || statut.isEmpty()) {
+                commandes = commandeDAO.getAllCommandes(); // Toutes les commandes
+            } else {
+                commandes = commandeDAO.getCommandesByStatut(statut);
+            }
 
             // Passer les commandes à la JSP
             request.setAttribute("commandes", commandes);
@@ -82,7 +87,7 @@ public class Gestion_Commande extends HttpServlet {
         if ("valider".equals(action)) {
             HttpSession session = request.getSession();
             Panier panier = (Panier) session.getAttribute("Panier");
-
+                totalPrice = 0.0;
                 int utilisateur_id = Integer.parseInt(request.getParameter("utilisateur_id"));
 
                 // Créer une nouvelle commande
@@ -126,6 +131,7 @@ public class Gestion_Commande extends HttpServlet {
                 }
                 // Vider le panier
                 panier.clear();
+                
                 session.setAttribute("Panier", panier);
               
                 // Récupérer les détails de la commande pour le récapitulatif

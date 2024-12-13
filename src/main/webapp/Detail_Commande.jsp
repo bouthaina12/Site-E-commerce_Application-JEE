@@ -43,17 +43,31 @@
                 </tr>
             </thead>
             <tbody>
+               <%! double total;%>
+            
                 <%
                     if (details != null && !details.isEmpty()) {
+                    	total=0.0;
+
                         for (OrderDetails detail : details) {
+                        	total+=detail.getPrixTotal();
                 %>
                 <tr>
                     <td><%= detail.getProduitId() %></td>
                     <td><%= detail.getQuantite() %></td>
                     <td><%= detail.getPrixTotal() %></td>
                 </tr>
+                
                 <%
-                        }
+                        }%>
+                   <tr>
+                     <td colspan="2" style="background-color: lightgray"><b>TOTAL(DT)</b></td>
+                   
+                    <td colspan="1"  style="background-color:lightgray"><%=total %></td>
+                  
+                </tr>
+                <%
+                        
                     } else {
                 %>
                 <tr>

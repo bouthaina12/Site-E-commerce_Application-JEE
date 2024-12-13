@@ -4,6 +4,7 @@
 
 <%@ page import="java.util.List" %>
 <%@ page import="boutique.Produit" %>
+<%@ page import="boutique.ProduitDAO" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,8 +75,9 @@
             </thead>
             <tbody>
               <%
-            // Récupérer la liste des produits depuis les attributs de la requête
-            List<boutique.Produit> produits = (List<boutique.Produit>) request.getAttribute("Produits");
+              // Récupérer la liste des produits depuis les attributs de la requête
+              List<boutique.Produit> produits = (List<boutique.Produit>) request.getAttribute("Produits");
+
             
             if (produits != null && !produits.isEmpty()) {
                 for (boutique.Produit produit : produits) {

@@ -39,7 +39,7 @@
     <h2 class="text-center mb-4">Modifier le produit</h2>
     <form action="Gestion_Produit" method="POST" enctype="multipart/form-data">
         <!-- Champ caché pour transmettre l'ID -->
-        <input type="hidden" name="id" value="<%= produit.getId() %>">
+        <input type="text" name="id" value="<%= produit.getId() %>">
 
         <!-- Nom -->
         <div class="mb-3">
@@ -66,7 +66,7 @@
         <div class="mb-3">
             <label for="categorie" class="form-label">Catégorie :</label>
                   <select id="categorie" name="categorie" class="form-control" required>
-                      <option value="<%= produit.getCategorie() %>" disabled selected><%= produit.getCategorie() %></option>
+                      <option value="<%= produit.getCategorie() %>" ><%= produit.getCategorie() %></option>
                       <option value="hommes" >hommes</option>
                       <option value="femmes" >femmes</option>
                       <option value="enfants" >enfants</option>

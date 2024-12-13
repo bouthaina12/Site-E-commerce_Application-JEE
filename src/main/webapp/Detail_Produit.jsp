@@ -73,7 +73,7 @@
         <!-- Stock -->
         <div class="mb-3">
             <label for="stock" class="form-label">Stock :</label>
-            <p class="form-control" ><%= produit.getCategorie() %></p>
+            <p class="form-control" ><%= produit.getStock() %></p>
 
         </div>
 

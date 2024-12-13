@@ -31,7 +31,6 @@
 
         <%
             Commande commande = (Commande) request.getAttribute("commande");
-            Double prixTotal = (Double) request.getAttribute("PrixTotal");
 
             List<OrderDetails> details = (List<OrderDetails>) request.getAttribute("details");
         %>
@@ -48,11 +47,12 @@
                 </tr>
             </thead>
             <tbody>
-                <%! double total=0.0;%>
+                <%! double total;%>
             	<%ProduitDAO produitDAO=new ProduitDAO();	
 
                 Produit produit;
                     if (details != null && !details.isEmpty()) {
+                    	total=0.0;
                         for (OrderDetails detail : details) {
                         	produit=produitDAO.getProduitById(detail.getProduitId());
                         	total+=detail.getPrixTotal();

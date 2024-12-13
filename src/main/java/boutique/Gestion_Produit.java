@@ -24,13 +24,14 @@ import javax.servlet.http.Part;
 @MultipartConfig // Pour gérer l'upload de fichiers
 public class Gestion_Produit extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final ProduitDAO produitDAO = new ProduitDAO();
+    private  ProduitDAO produitDAO = new ProduitDAO();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   
       
-      String action = request.getParameter("action");
+      
+	  String action = request.getParameter("action");
       List<Produit> produits = produitDAO.getAllProducts();
       request.setAttribute("Produits", produits);
      if(action!=null) {
@@ -66,7 +67,6 @@ public class Gestion_Produit extends HttpServlet {
       RequestDispatcher dispatcher = request.getRequestDispatcher("/Gestion_Produits.jsp");
       dispatcher.forward(request, response);
   }
-
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       String action = request.getParameter("action");
@@ -75,11 +75,11 @@ public class Gestion_Produit extends HttpServlet {
           addProduct(request, response);
       } else if ("update".equalsIgnoreCase(action)) {
           updateProduct(request, response);
-      } else if ("delete".equalsIgnoreCase(action)) {
+
+           }
+      else if ("delete".equalsIgnoreCase(action)) {
           deleteProduct(request, response);
-      } else {
-          response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action inconnue : " + action);
-      }
+      } 
       List<Produit> produits = produitDAO.getAllProducts();
 
       request.setAttribute("Produits", produits);
@@ -106,11 +106,18 @@ public class Gestion_Produit extends HttpServlet {
 
       Produit produit = new Produit(0, nom, description, prix, "uploads/" + imageName, categorie, stock);
       produitDAO.addProduct(produit);
+   
 
   }
 
   private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
       int id = Integer.parseInt(request.getParameter("id"));
+      if (id <= 0) {
+          throw new IllegalArgumentException("ID du produit invalide pour la modification");
+      }
+      else  {
+    	  System.out.println(id);
+      }
       String nom = request.getParameter("nom");
       String description = request.getParameter("description");
       double prix = Double.parseDouble(request.getParameter("prix"));
@@ -139,11 +146,13 @@ public class Gestion_Produit extends HttpServlet {
       }
       Produit produit = new Produit(id, nom, description, prix,imageUrl, categorie, stock);
       produitDAO.updateProduct(produit);
+
       
   }
 
-  private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
       int id = Integer.parseInt(request.getParameter("id"));
       produitDAO.deleteProduct(id);
+
 
   }}

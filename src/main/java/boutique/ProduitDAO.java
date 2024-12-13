@@ -31,6 +31,8 @@ public class ProduitDAO {
                     produit.setPrix(rs.getDouble("prix"));
                     produit.setImage(rs.getString("image"));
                     produit.setCategorie(rs.getString("categorie"));
+                    produit.setStock(rs.getInt("stock"));
+
                 }
             }
         } catch (SQLException e) {

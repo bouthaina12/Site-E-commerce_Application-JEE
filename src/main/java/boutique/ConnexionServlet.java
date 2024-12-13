@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/ConnexionServlet")
 public class ConnexionServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private ProduitDAO produitDAO;
 
     public ConnexionServlet() {
         super();
@@ -44,6 +45,7 @@ public class ConnexionServlet extends HttpServlet {
 
                     if (isBlocked) {
                         System.out.println("Utilisateur bloqué !");
+                        // Passer un message d'erreur spécifique
                         request.setAttribute("errorMessage", "Vous êtes bloqué par l'administrateur.");
                         request.getRequestDispatcher("/connexion.jsp").forward(request, response);
                         return;

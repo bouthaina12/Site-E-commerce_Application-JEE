@@ -42,6 +42,30 @@ public class CommandeDAO {
 
         return generatedId; // Retourner l'ID généré
     }
+    public List<Commande> getCommandesByStatut(String statut) {
+        List<Commande> commandes = new ArrayList<>();
+        String sql = "SELECT * FROM orders WHERE statut = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, statut);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Commande commande = new Commande();
+                    commande.setId(rs.getInt("id"));
+                    commande.setClientId(rs.getInt("utilisateur_id"));
+                    commande.setDateCommande(rs.getTimestamp("date"));
+                    commande.setStatut(rs.getString("statut"));
+                    commandes.add(commande);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return commandes;
+    }
 
 
     // Récupérer toutes les commandes
@@ -65,8 +89,32 @@ public class CommandeDAO {
         }
         return commandes;
     }
-
     // Récupérer toutes les commandes
+    public List<Commande> getAllCommandes() {
+        List<Commande> commandes = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM orders ";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            ResultSet rs = statement.executeQuery();
+
+
+            while (rs.next()) {
+                Commande commande = new Commande();
+                commande.setId(rs.getInt("id"));
+                commande.setClientId(rs.getInt("utilisateur_id"));
+                commande.setDateCommande(rs.getTimestamp("date"));
+                commande.setStatut(rs.getString("statut"));
+                commandes.add(commande);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commandes;
+    }
+    
+    // Récupérer toutes les commandes du client
     public List<Commande> getAllCommandes(int clientid) {
         List<Commande> commandes = new ArrayList<>();
         try {
